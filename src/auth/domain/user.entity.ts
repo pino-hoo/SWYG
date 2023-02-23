@@ -5,7 +5,7 @@ import { Point } from 'src/point/domain/point.entity'
 import { Quiz } from 'src/quiz/domain/quiz.entity'
 import { Review } from 'src/review/domain/review.entity'
 import { ReviewLike } from 'src/reviewLike/domain/reviewLike.entity'
-import { UserBook } from 'src/api/userBook/domain/userBook.entity'
+import { UserBook } from 'src/userBook/domain/userBook.entity'
 import {
   Column,
   Entity,
