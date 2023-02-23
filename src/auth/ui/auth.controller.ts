@@ -72,8 +72,8 @@ export class AuthController {
     const user = await this.authService.kakaoLogin(req.user)
     const token = await this.authService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
-    const url = 'http://localhost:5173'
-    // const url = 'https://matebook.swygbro.com'
+    // const url = 'http://localhost:5173'
+    const url = 'https://matebook.swygbro.com'
     return mate
       ? res.redirect(`${url}/home?token=${token}`)
       : res.redirect(`${url}/auth/info?token=${token}`)
@@ -93,8 +93,8 @@ export class AuthController {
     const user = await this.authService.naverLogin(req.user)
     const token = await this.authService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
-    // const url = 'https://matebook.swygbro.com'
-    const url = 'http://localhost:5173'
+    const url = 'https://matebook.swygbro.com'
+    // const url = 'http://localhost:5173'
     return mate
       ? res.redirect(`${url}/home?token=${token}`)
       : res.redirect(`${url}/auth/info?token=${token}`)
