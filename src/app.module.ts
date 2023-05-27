@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 // ** Custom Module Imports
 import AuthModule from './api/auth/auth.module'
-import { BookModule } from './api/book/book.module'
+import BookModule from './api/book/book.module'
 import { CommentModule } from './api/comment/comment.module'
 import { LikeBookModule } from './api/likeBook/likeBook.module'
 import { MateModule } from './api/mate/mate.module'
@@ -16,7 +16,7 @@ import { QuizModule } from './api/quiz/quiz.module'
 import { ReviewModule } from './api/review/review.module'
 import { ReviewLikeModule } from './api/reviewLike/reviewLike.module'
 import { UserBookModule } from './api/userBook/userBook.module'
-import { TypeOrmExModule } from './common/repository/typeOrmEx.module'
+import TypeOrmExModule from './common/repository/typeOrmEx.module'
 
 @Module({
   imports: [

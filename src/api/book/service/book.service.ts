@@ -1,10 +1,15 @@
+// ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { Book } from '../domain/book.entity'
-import { BookSaveDto } from '../dto/book.save.dto'
-import { BookRepository } from '../infrastructure/book.repository'
+
+// ** Domain, Dto Imports
+import Book from '../domain/book.entity'
+import RequestBookSaveDto from '../dto/book.save.dto'
+
+// ** Custom Module Imports
+import BookRepository from '../repository/book.repository'
 
 @Injectable()
-export class BookService {
+export default class BookService {
   constructor(private readonly bookRepository: BookRepository) {}
 
   /**
@@ -12,7 +17,7 @@ export class BookService {
    * @param {BookSaveDto} req
    * @returns {Book}
    */
-  async saveBook(req: BookSaveDto) {
+  async saveBook(req: RequestBookSaveDto) {
     try {
       const findBook: Book[] = await this.findBookList(req.isbn)
       if (findBook.length > 0) return findBook[0]

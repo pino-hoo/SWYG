@@ -1,5 +1,5 @@
 import User from 'src/api/auth/domain/user.entity'
-import { Book } from 'src/api/book/domain/book.entity'
+import Book from 'src/api/book/domain/book.entity'
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
 import { Point } from 'src/api/point/domain/point.entity'
 import {

@@ -1,13 +1,25 @@
+// ** Nest Imports
 import { Module } from '@nestjs/common'
+
+// ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { BookService } from './application/book.service'
-import { BookRepository } from './infrastructure/book.repository'
-import { BookController } from './ui/book.controller'
+
+// ** Custom Module Imports
+import BookService from './service/book.service'
+import BookRepository from './repository/book.repository'
+import BookController from './controller/book.controller'
+import TypeOrmExModule from 'src/common/repository/typeOrmEx.module'
+
+// ** Domain Imports
+import Book from './domain/book.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BookRepository])],
+  imports: [
+    TypeOrmModule.forFeature([Book]),
+    TypeOrmExModule.forCustomRepository([BookRepository]),
+  ],
   providers: [BookService],
   controllers: [BookController],
   exports: [BookService],
 })
-export class BookModule {}
+export default class BookModule {}

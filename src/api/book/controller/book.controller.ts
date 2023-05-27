@@ -1,10 +1,15 @@
+// ** Nest Imports
 import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+
+// ** Custom Module Imports
+import BookService from '../service/book.service'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { BookService } from '../application/book.service'
-import { BookSaveDto } from '../dto/book.save.dto'
+import BookSaveDto from '../dto/book.save.dto'
 
 @Controller('book')
-export class BookController {
+export default class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()

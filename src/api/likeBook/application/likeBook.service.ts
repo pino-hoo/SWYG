@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import User from 'src/api/auth/domain/user.entity'
-import { BookService } from 'src/api/book/application/book.service'
-import { Book } from 'src/api/book/domain/book.entity'
+import BookService from 'src/api/book/service/book.service'
+import Book from 'src/api/book/domain/book.entity'
 import { LikeBook } from '../domain/likeBook.entity'
 import { LikeBookRepository } from '../infrastructure/likeBook.repository'
 

@@ -1,6 +1,7 @@
-import { IsDate, IsString } from 'class-validator'
+// ** Validation Imports
+import { IsString } from 'class-validator'
 
-export class BookSaveDto {
+export default class RequestBookSaveDto {
   @IsString()
   title: string
 
