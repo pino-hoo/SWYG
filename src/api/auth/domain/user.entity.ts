@@ -9,7 +9,7 @@ import {
 
 // ** Domain Imports
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import { LikeBook } from 'src/api/likeBook/domain/likeBook.entity'
+import LikeBook from 'src/api/likeBook/domain/likeBook.entity'
 import { Mate } from 'src/api/mate/domain/mate.entity'
 import { Point } from 'src/api/point/domain/point.entity'
 import { Quiz } from 'src/api/quiz/domain/quiz.entity'

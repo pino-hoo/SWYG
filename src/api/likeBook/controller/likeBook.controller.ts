@@ -1,3 +1,4 @@
+// ** Nest Imports
 import {
   Controller,
   Delete,
@@ -7,12 +8,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { LikeBookService } from '../application/likeBook.service'
+
+// ** Custom Module Imports
+import LikeBookService from '../service/likeBook.service'
 
 @Controller('likeBook')
-export class LikeBookController {
+export default class LikeBookController {
   constructor(private readonly likeBookService: LikeBookService) {}
 
   @Post('/:id')
