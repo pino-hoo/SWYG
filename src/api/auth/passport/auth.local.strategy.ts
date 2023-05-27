@@ -6,7 +6,7 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Strategy } from 'passport-local'
 
 // ** Custom Module Imports
-import AuthService from '../service/auth.service'
+import AuthService from '../service/user.service'
 
 // ** Domain Imports
 import User from '../domain/user.entity'

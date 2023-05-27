@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
 // ** Custom Module Imports
-import AuthService from '../service/auth.service'
+import AuthService from '../service/user.service'
 
 // ** Domain Imports
 import User from '../domain/user.entity'

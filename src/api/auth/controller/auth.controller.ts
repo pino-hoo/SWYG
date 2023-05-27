@@ -22,7 +22,7 @@ import { Response } from 'express'
 import { ApiResponse } from 'src/common/dto/api.response'
 import MailDto from '../dto/mail.dto'
 import ReqWithUser from '../dto/passport.req.dto'
-import CreateUserDto from '../dto/user.create.dto'
+import RequestUserSaveDto from '../dto/user.save.dto'
 
 // ** Passport Imports
 import JwtGuard from '../passport/auth.jwt.guard'
@@ -33,32 +33,43 @@ import NaverGuard from '../passport/auth.naver.guard'
 // ** Custom Module Imports
 import MateService from 'src/api/mate/service/mate.service'
 import { multerDiskOptions } from 'src/utils/multerOption'
-import AuthService from 'src/api/auth/service/auth.service'
+import UserService from 'src/api/auth/service/user.service'
 
+// ** Swagger Imports
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
+
+@ApiTags('Auth')
 @Controller('auth')
 export default class AuthController {
   constructor(
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly mateService: MateService,
   ) {}
 
+  @ApiOperation({ summary: '유저 생성' })
+  @ApiBody({ type: RequestUserSaveDto })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '유저 생성 성공',
+    type: ApiResponse,
+  })
   @Post('/register')
-  async localSave(@Body() req: CreateUserDto) {
-    const user = await this.authService.localSave(req)
-    const token = await this.authService.gwtJwtWithIdx(user.idx)
-    const response = { user, token }
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Register',
-      statusCode: 200,
-    })
+  public async localSave(
+    @Body() dto: RequestUserSaveDto,
+  ): Promise<ApiResponse<any>> {
+    return await this.userService.localSave(dto)
   }
 
   @UseGuards(LocalGuard)
   @Post('/local')
   async localLogin(@Req() req: ReqWithUser) {
     const { user } = req
-    const token = await this.authService.gwtJwtWithIdx(user.idx)
+    const token = await this.userService.gwtJwtWithIdx(user.idx)
     const response = { user, token }
     return ApiResponse.of({
       data: response,
@@ -78,8 +89,8 @@ export default class AuthController {
   @HttpCode(200)
   @UseGuards(KakaoGuard)
   async kakaoCallBack(@Req() req, @Res() res: Response) {
-    const user = await this.authService.kakaoLogin(req.user)
-    const token = await this.authService.gwtJwtWithIdx(user.idx)
+    const user = await this.userService.kakaoLogin(req.user)
+    const token = await this.userService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
     // const url = 'http://localhost:5173'
     const url = 'https://matebook.swygbro.com'
@@ -99,8 +110,8 @@ export default class AuthController {
   @HttpCode(200)
   @UseGuards(NaverGuard)
   async naverCallBack(@Req() req, @Res() res: Response) {
-    const user = await this.authService.naverLogin(req.user)
-    const token = await this.authService.gwtJwtWithIdx(user.idx)
+    const user = await this.userService.naverLogin(req.user)
+    const token = await this.userService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
     const url = 'https://matebook.swygbro.com'
     // const url = 'http://localhost:5173'
@@ -111,7 +122,7 @@ export default class AuthController {
 
   @Post('/mail')
   async sendMail(@Body() req: MailDto) {
-    const response = await this.authService.sendMail(req.email)
+    const response = await this.userService.sendMail(req.email)
     return ApiResponse.of({
       data: response,
       message: 'Success Send Mail',
@@ -135,7 +146,7 @@ export default class AuthController {
   @UseInterceptors(FilesInterceptor('files', null, multerDiskOptions))
   async updateImage(@Req() req, @UploadedFiles() files) {
     const { path } = files[0]
-    const response = await this.authService.updateImg(req.user, path)
+    const response = await this.userService.updateImg(req.user, path)
     return ApiResponse.of({
       data: response,
       message: 'Success Change Image File',
