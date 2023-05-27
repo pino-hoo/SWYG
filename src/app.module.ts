@@ -1,28 +1,25 @@
+// ** Nest Imports
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { ServeStaticModule } from '@nestjs/serve-static'
+
+// ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { join } from 'path'
-import { AuthModule } from './auth/auth.module'
-import { BookModule } from './book/book.module'
-import { CommentModule } from './comment/comment.module'
-import { LikeBookModule } from './likeBook/likeBook.module'
-import { MateModule } from './mate/mate.module'
-import { PointModule } from './point/point.module'
-import { QuizModule } from './quiz/quiz.module'
-import { ReviewModule } from './review/review.module'
-import { ReviewLikeModule } from './reviewLike/reviewLike.module'
-import { UserBookModule } from './userBook/userBook.module'
+
+// ** Custom Module Imports
+import AuthModule from './api/auth/auth.module'
+import { BookModule } from './api/book/book.module'
+import { CommentModule } from './api/comment/comment.module'
+import { LikeBookModule } from './api/likeBook/likeBook.module'
+import { MateModule } from './api/mate/mate.module'
+import { PointModule } from './api/point/point.module'
+import { QuizModule } from './api/quiz/quiz.module'
+import { ReviewModule } from './api/review/review.module'
+import { ReviewLikeModule } from './api/reviewLike/reviewLike.module'
+import { UserBookModule } from './api/userBook/userBook.module'
+import { TypeOrmExModule } from './common/repository/typeOrmEx.module'
 
 @Module({
   imports: [
-    PointModule,
-    QuizModule,
-    ReviewModule,
-    CommentModule,
-    ReviewLikeModule,
-    LikeBookModule,
-    MateModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
@@ -34,9 +31,19 @@ import { UserBookModule } from './userBook/userBook.module'
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: ['dist/**/*.entity.js'],
+      entities: ['dist/api/**/*.entity.{js, ts}'],
       synchronize: true,
+      logging: true,
+      logger: 'file',
     }),
+    TypeOrmExModule,
+    PointModule,
+    QuizModule,
+    ReviewModule,
+    CommentModule,
+    ReviewLikeModule,
+    LikeBookModule,
+    MateModule,
     AuthModule,
     UserBookModule,
     BookModule,
