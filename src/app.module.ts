@@ -1,5 +1,5 @@
 // ** Nest Imports
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
 // ** Typeorm Imports
@@ -17,6 +17,8 @@ import ReviewModule from './api/review/review.module'
 import ReviewLikeModule from './api/reviewLike/reviewLike.module'
 import UserBookModule from './api/userBook/userBook.module'
 import TypeOrmExModule from './common/repository/typeOrmEx.module'
+import LoggerModule from './utils/logger/logger.module'
+import LoggerMiddleware from './utils/logger/logger.middleware'
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import TypeOrmExModule from './common/repository/typeOrmEx.module'
       logger: 'file',
     }),
     TypeOrmExModule,
+    LoggerModule,
     PointModule,
     QuizModule,
     ReviewModule,
@@ -51,4 +54,8 @@ import TypeOrmExModule from './common/repository/typeOrmEx.module'
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*')
+  }
+}
