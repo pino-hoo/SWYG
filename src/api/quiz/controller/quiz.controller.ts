@@ -1,3 +1,4 @@
+// ** Nest Imports
 import {
   Body,
   Controller,
@@ -7,13 +8,19 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { QuizService } from '../application/quiz.service'
-import { RequestSaveQuizDto } from '../dto/quiz.save.dto'
+import RequestSaveQuizDto from '../dto/quiz.save.dto'
+
+// ** Custom Module Imports
+import QuizService from '../service/quiz.service'
 
 @Controller('quiz')
-export class QuizController {
+export default class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
   @Post('/:id')

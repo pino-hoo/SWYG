@@ -1,7 +1,4 @@
-import User from 'src/api/auth/domain/user.entity'
-import Book from 'src/api/book/domain/book.entity'
-import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import Point from 'src/api/point/domain/point.entity'
+// ** Typeorm Imports
 import {
   Column,
   Entity,
@@ -9,10 +6,16 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { QuizKind } from '../dto/quiz.kind.enum'
+
+// ** Dto, Domain Imports
+import QuizKind from '../dto/quiz.kind.enum'
+import User from 'src/api/auth/domain/user.entity'
+import Book from 'src/api/book/domain/book.entity'
+import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
+import Point from 'src/api/point/domain/point.entity'
 
 @Entity({ name: 'tbl_quiz' })
-export class Quiz extends BaseTimeEntity {
+export default class Quiz extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   idx: number
 

@@ -1,13 +1,18 @@
+// ** Neset Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+
+// ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
-import BookService from 'src/api/book/service/book.service'
 import Book from 'src/api/book/domain/book.entity'
-import { Quiz } from '../domain/quiz.entity'
-import { QuizKind } from '../dto/quiz.kind.enum'
-import { QuizRepository } from '../infrastructure/quiz.repository'
+import Quiz from '../domain/quiz.entity'
+import QuizKind from '../dto/quiz.kind.enum'
+
+// ** Custom Module Imports
+import BookService from 'src/api/book/service/book.service'
+import QuizRepository from '../repository/quiz.repository'
 
 @Injectable()
-export class QuizService {
+export default class QuizService {
   constructor(
     private readonly quizRepository: QuizRepository,
     private readonly bookService: BookService,

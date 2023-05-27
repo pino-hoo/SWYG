@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 // ** Domain, Dto Imports
 import User from 'src/api/auth/domain/user.entity'
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import { Quiz } from 'src/api/quiz/domain/quiz.entity'
+import Quiz from 'src/api/quiz/domain/quiz.entity'
 
 @Entity({ name: 'tbl_point' })
 export default class Point extends BaseTimeEntity {
