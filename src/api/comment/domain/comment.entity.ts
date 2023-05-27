@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 // ** Domain, dto Imports
 import User from 'src/api/auth/domain/user.entity'
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import { Review } from 'src/api/review/domain/review.entity'
+import Review from 'src/api/review/domain/review.entity'
 
 @Entity({ name: 'tbl_comment' })
 export default class Comment extends BaseTimeEntity {

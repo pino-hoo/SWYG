@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import User from 'src/api/auth/domain/user.entity'
-import { ReviewService } from 'src/api/review/application/review.service'
-import { Review } from 'src/api/review/domain/review.entity'
+import ReviewService from 'src/api/review/service/review.service'
+import Review from 'src/api/review/domain/review.entity'
 import { ReviewLike } from '../domain/reviewLike.entity'
 import { ReviewLikeRepository } from '../infrastructure/reviewLike.repository'
 

@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 // ** Custom Module Imports
-import { ReviewModule } from 'src/api/review/review.module'
+import ReviewModule from 'src/api/review/review.module'
 import CommentService from './service/comment.service'
 import CommentRepository from './repository/comment.repository'
 import CommentController from './controller/comment.controller'

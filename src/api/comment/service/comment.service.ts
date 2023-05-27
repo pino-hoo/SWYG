@@ -2,12 +2,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 
 // ** Domain Imports
-import { Review } from 'src/api/review/domain/review.entity'
+import Review from 'src/api/review/domain/review.entity'
 import Comment from '../domain/comment.entity'
 import User from 'src/api/auth/domain/user.entity'
 
 // ** Custom Module Imports
-import { ReviewService } from 'src/api/review/application/review.service'
+import ReviewService from 'src/api/review/service/review.service'
 import CommentRepository from '../repository/comment.repository'
 
 @Injectable()

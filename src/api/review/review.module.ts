@@ -1,14 +1,27 @@
+// ** Nest Imports
 import { Module } from '@nestjs/common'
+
+// ** Typeorm Imports
 import { TypeOrmModule } from '@nestjs/typeorm'
+
+// ** Custom Module Imports
 import BookModule from 'src/api/book/book.module'
-import { ReviewService } from './application/review.service'
-import { ReviewRepository } from './infrastructure/review.repository'
-import { ReviewController } from './ui/review.controller'
+import ReviewService from './service/review.service'
+import ReviewRepository from './repository/review.repository'
+import ReviewController from './controller/review.controller'
+import TypeOrmExModule from 'src/common/repository/typeOrmEx.module'
+
+// ** Domain Imports
+import Review from './domain/review.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ReviewRepository]), BookModule],
+  imports: [
+    TypeOrmModule.forFeature([Review]),
+    TypeOrmExModule.forCustomRepository([ReviewRepository]),
+    BookModule,
+  ],
   controllers: [ReviewController],
   providers: [ReviewService],
   exports: [ReviewService],
 })
-export class ReviewModule {}
+export default class ReviewModule {}

@@ -1,3 +1,4 @@
+// ** Nest Imports
 import {
   Body,
   Controller,
@@ -7,12 +8,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { ReviewService } from '../application/review.service'
+
+// ** Custom Module Imports
+import ReviewService from '../service/review.service'
 
 @Controller('review')
-export class ReviewController {
+export default class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Get('/:id')

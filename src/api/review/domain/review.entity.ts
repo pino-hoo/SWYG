@@ -1,8 +1,4 @@
-import User from 'src/api/auth/domain/user.entity'
-import Book from 'src/api/book/domain/book.entity'
-import Comment from 'src/api/comment/domain/comment.entity'
-import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import { ReviewLike } from 'src/api/reviewLike/domain/reviewLike.entity'
+// ** Typeorm Imports
 import {
   Column,
   Entity,
@@ -11,8 +7,15 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
+// ** Domain, Dto Imports
+import User from 'src/api/auth/domain/user.entity'
+import Book from 'src/api/book/domain/book.entity'
+import Comment from 'src/api/comment/domain/comment.entity'
+import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
+import { ReviewLike } from 'src/api/reviewLike/domain/reviewLike.entity'
+
 @Entity({ name: 'tbl_review' })
-export class Review extends BaseTimeEntity {
+export default class Review extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   idx: number
 
