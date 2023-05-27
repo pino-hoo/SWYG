@@ -1,10 +1,17 @@
+// ** Nest Imports
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { PointService } from '../application/point.service'
+
+// ** Custom Module Imports
+import PointService from '../service/point.service'
 
 @Controller('point')
-export class PointController {
+export default class PointController {
   constructor(private readonly pointService: PointService) {}
 
   @Post()

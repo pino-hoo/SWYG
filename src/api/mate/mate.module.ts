@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 // ** Custom Module Imports
-import { PointModule } from 'src/api/point/point.module'
+import PointModule from 'src/api/point/point.module'
 import MateService from './service/mate.service'
 import MateRepository from './repository/mate.repository'
 import MateController from './controller/mate.controller'

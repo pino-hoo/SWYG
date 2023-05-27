@@ -1,10 +1,15 @@
+// ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+
+// ** Domain Imports
+import Point from '../domain/point.entity'
 import User from 'src/api/auth/domain/user.entity'
-import { PointRepository } from '../infrastructure/point.repository'
-import { Point } from '../domain/point.entity'
+
+// ** Custom Module Imports
+import PointRepository from '../repository/point.repository'
 
 @Injectable()
-export class PointService {
+export default class PointService {
   constructor(private readonly pointRepository: PointRepository) {}
 
   /**

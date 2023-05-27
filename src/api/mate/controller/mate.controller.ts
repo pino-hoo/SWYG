@@ -8,7 +8,7 @@ import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
 import { ApiResponse } from 'src/common/dto/api.response'
 
 // ** Custom Module Imports
-import { PointService } from 'src/api/point/application/point.service'
+import PointService from 'src/api/point/service/point.service'
 import MateService from '../service/mate.service'
 
 @Controller('mate')
