@@ -41,9 +41,10 @@ export class CommentService {
    * @param {number}reviewIdx
    * @returns {Comment[]}
    */
-  async getCommentList(reviewIdx: number): Promise<Comment[]> {
+  async getCommentList(reviewIdx: number): Promise<any> {
     try {
-      return await this.commentRepository.find({ where: { review: reviewIdx } })
+      // return await this.commentRepository.find({ where: { review: reviewIdx } })
+      return null
     } catch (err) {
       console.log(err)
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
