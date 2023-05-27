@@ -8,7 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 // ** Custom Module Imports
 import AuthModule from './api/auth/auth.module'
 import BookModule from './api/book/book.module'
-import { CommentModule } from './api/comment/comment.module'
+import CommentModule from './api/comment/comment.module'
 import { LikeBookModule } from './api/likeBook/likeBook.module'
 import { MateModule } from './api/mate/mate.module'
 import { PointModule } from './api/point/point.module'

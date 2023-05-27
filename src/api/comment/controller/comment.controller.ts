@@ -1,3 +1,4 @@
+// ** Nest Imports
 import {
   Body,
   Controller,
@@ -7,12 +8,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { CommentService } from '../application/comment.service'
+
+// ** Custom Module Imports
+import CommentService from '../service/comment.service'
 
 @Controller('comment')
-export class CommentController {
+export default class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @Post('/:id')
