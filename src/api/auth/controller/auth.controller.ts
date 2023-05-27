@@ -31,7 +31,7 @@ import LocalGuard from '../passport/auth.local.guard'
 import NaverGuard from '../passport/auth.naver.guard'
 
 // ** Custom Module Imports
-import { MateService } from 'src/api/mate/application/mate.service'
+import MateService from 'src/api/mate/service/mate.service'
 import { multerDiskOptions } from 'src/utils/multerOption'
 import AuthService from 'src/api/auth/service/auth.service'
 

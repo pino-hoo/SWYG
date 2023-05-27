@@ -1,10 +1,15 @@
+// ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+
+// ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
-import { Mate } from '../domain/mate.entity'
-import { MateRepository } from '../infrastructure/mate.repository'
+import Mate from '../domain/mate.entity'
+
+// ** Custom Module Imports
+import MateRepository from '../repository/mate.repository'
 
 @Injectable()
-export class MateService {
+export default class MateService {
   constructor(private readonly mateRepository: MateRepository) {}
 
   /**

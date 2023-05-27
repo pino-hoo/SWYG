@@ -22,7 +22,7 @@ import User from 'src/api/auth/domain/user.entity'
 import AuthController from 'src/api/auth/controller/auth.controller'
 import AuthService from 'src/api/auth/service/auth.service'
 import UserRepository from 'src/api/auth/repository/user.repository'
-import { MateModule } from 'src/api/mate/mate.module'
+import MateModule from 'src/api/mate/mate.module'
 import { male } from 'src/config/env/node'
 import TypeOrmExModule from 'src/common/repository/typeOrmEx.module'
 

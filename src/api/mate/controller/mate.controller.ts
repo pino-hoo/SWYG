@@ -1,11 +1,18 @@
+// ** Nest Imports
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
+
+// ** Custom Module Imports
 import { PointService } from 'src/api/point/application/point.service'
-import { MateService } from '../application/mate.service'
+import MateService from '../service/mate.service'
 
 @Controller('mate')
-export class MateController {
+export default class MateController {
   constructor(
     private readonly mateService: MateService,
     private readonly pointService: PointService,
