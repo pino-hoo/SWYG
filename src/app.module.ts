@@ -6,20 +6,10 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 // ** Custom Module Imports
-import AuthModule from './api/auth/auth.module'
-import BookModule from './api/book/book.module'
-import CommentModule from './api/comment/comment.module'
-import LikeBookModule from './api/likeBook/likeBook.module'
-import MateModule from './api/mate/mate.module'
-import PointModule from './api/point/point.module'
-import QuizModule from './api/quiz/quiz.module'
-import ReviewModule from './api/review/review.module'
-import ReviewLikeModule from './api/reviewLike/reviewLike.module'
-import UserBookModule from './api/userBook/userBook.module'
 import TypeOrmExModule from './common/repository/typeOrmEx.module'
 import LoggerModule from './utils/logger/logger.module'
 import LoggerMiddleware from './utils/logger/logger.middleware'
-import UploadModule from './api/upload/upload.module'
+import ApiModule from './api/api.module'
 
 @Module({
   imports: [
@@ -41,17 +31,7 @@ import UploadModule from './api/upload/upload.module'
     }),
     TypeOrmExModule,
     LoggerModule,
-    PointModule,
-    QuizModule,
-    ReviewModule,
-    CommentModule,
-    ReviewLikeModule,
-    LikeBookModule,
-    MateModule,
-    AuthModule,
-    UserBookModule,
-    BookModule,
-    UploadModule,
+    ApiModule,
   ],
   controllers: [],
   providers: [],
