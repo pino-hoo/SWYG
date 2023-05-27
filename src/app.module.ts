@@ -14,7 +14,7 @@ import MateModule from './api/mate/mate.module'
 import PointModule from './api/point/point.module'
 import QuizModule from './api/quiz/quiz.module'
 import ReviewModule from './api/review/review.module'
-import { ReviewLikeModule } from './api/reviewLike/reviewLike.module'
+import ReviewLikeModule from './api/reviewLike/reviewLike.module'
 import { UserBookModule } from './api/userBook/userBook.module'
 import TypeOrmExModule from './common/repository/typeOrmEx.module'
 

@@ -1,10 +1,13 @@
+// ** Typeorm Imports
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
+// ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
 import Review from 'src/api/review/domain/review.entity'
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({ name: 'tbl_reviewLike' })
-export class ReviewLike extends BaseTimeEntity {
+export default class ReviewLike extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   idx: number
 

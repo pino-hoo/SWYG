@@ -14,7 +14,7 @@ import Mate from 'src/api/mate/domain/mate.entity'
 import Point from 'src/api/point/domain/point.entity'
 import Quiz from 'src/api/quiz/domain/quiz.entity'
 import Review from 'src/api/review/domain/review.entity'
-import { ReviewLike } from 'src/api/reviewLike/domain/reviewLike.entity'
+import ReviewLike from 'src/api/reviewLike/domain/reviewLike.entity'
 import { UserBook } from 'src/api/userBook/domain/userBook.entity'
 import Provider from 'src/api/auth/dto/user.provider.enum'
 

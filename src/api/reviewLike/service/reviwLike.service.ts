@@ -1,12 +1,17 @@
+// ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+
+// ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
-import ReviewService from 'src/api/review/service/review.service'
 import Review from 'src/api/review/domain/review.entity'
-import { ReviewLike } from '../domain/reviewLike.entity'
-import { ReviewLikeRepository } from '../infrastructure/reviewLike.repository'
+import ReviewLike from '../domain/reviewLike.entity'
+
+// ** Custom Module Imports
+import ReviewService from 'src/api/review/service/review.service'
+import ReviewLikeRepository from '../repository/reviewLike.repository'
 
 @Injectable()
-export class ReviewLikeService {
+export default class ReviewLikeService {
   constructor(
     private readonly reviewLikeRepository: ReviewLikeRepository,
     private readonly reviewService: ReviewService,

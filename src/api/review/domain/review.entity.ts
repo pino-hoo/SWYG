@@ -12,7 +12,7 @@ import User from 'src/api/auth/domain/user.entity'
 import Book from 'src/api/book/domain/book.entity'
 import Comment from 'src/api/comment/domain/comment.entity'
 import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
-import { ReviewLike } from 'src/api/reviewLike/domain/reviewLike.entity'
+import ReviewLike from 'src/api/reviewLike/domain/reviewLike.entity'
 
 @Entity({ name: 'tbl_review' })
 export default class Review extends BaseTimeEntity {
