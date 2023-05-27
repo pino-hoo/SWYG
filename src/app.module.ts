@@ -19,6 +19,7 @@ import UserBookModule from './api/userBook/userBook.module'
 import TypeOrmExModule from './common/repository/typeOrmEx.module'
 import LoggerModule from './utils/logger/logger.module'
 import LoggerMiddleware from './utils/logger/logger.middleware'
+import UploadModule from './api/upload/upload.module'
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import LoggerMiddleware from './utils/logger/logger.middleware'
     AuthModule,
     UserBookModule,
     BookModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],
