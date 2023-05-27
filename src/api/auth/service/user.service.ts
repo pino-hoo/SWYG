@@ -24,6 +24,7 @@ import RequestUserSaveDto from 'src/api/auth/dto/user.save.dto'
 import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
 import { ApiResponse } from 'src/common/dto/api.response'
 import AuthService from './auth.service'
+import RequestUserLoginDto from '../dto/user.login.dto'
 
 @Injectable()
 export default class UserService {
@@ -71,15 +72,32 @@ export default class UserService {
   }
 
   /** Local 로그인 */
-  async localLogin(email: string, password: string) {
-    try {
-      const user = await this.userRepository.findOne({ where: { email } })
-      await this.compareBcrypt(password, user.password)
-      return user
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Not Found', HttpStatus.BAD_REQUEST)
+  public async localLogin(dto: RequestUserLoginDto): Promise<ApiResponse<any>> {
+    const findUser = await this.userRepository.findOne({
+      where: { email: dto.email },
+    })
+    if (!findUser) {
+      throw new BadRequestException(ExceptionMessage.NOT_FOUND_USER)
     }
+
+    const result = await bcrypt.compare(dto.password, findUser.password)
+
+    if (!result) {
+      throw new BadRequestException(ExceptionMessage.PASSWORD_WRONG)
+    }
+    const accessToken = await this.authService.createAccessToken({
+      id: findUser.idx,
+    })
+
+    const refreshToken = await this.authService.createRefreshToken({
+      id: findUser.idx,
+    })
+
+    return ApiResponse.of({
+      data: { user: findUser, token: accessToken, refreshToken },
+      statusCode: 200,
+      message: '로그인에 성공하였습니다.',
+    })
   }
 
   /** Kakao Login(Passport) */

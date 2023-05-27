@@ -21,13 +21,12 @@ import { Response } from 'express'
 // ** Domain, Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
 import MailDto from '../dto/mail.dto'
-import ReqWithUser from '../dto/passport.req.dto'
 import RequestUserSaveDto from '../dto/user.save.dto'
+import RequestUserLoginDto from '../dto/user.login.dto'
 
 // ** Passport Imports
 import JwtGuard from '../passport/auth.jwt.guard'
 import KakaoGuard from '../passport/auth.kakao.guard'
-import LocalGuard from '../passport/auth.local.guard'
 import NaverGuard from '../passport/auth.naver.guard'
 
 // ** Custom Module Imports
@@ -65,17 +64,16 @@ export default class AuthController {
     return await this.userService.localSave(dto)
   }
 
-  @UseGuards(LocalGuard)
+  @ApiOperation({ summary: '유저 로그인' })
+  @ApiBody({ type: RequestUserLoginDto })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '유저 로그인 성공',
+    type: ApiResponse,
+  })
   @Post('/local')
-  async localLogin(@Req() req: ReqWithUser) {
-    const { user } = req
-    const token = await this.userService.gwtJwtWithIdx(user.idx)
-    const response = { user, token }
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Local Login',
-      statusCode: 200,
-    })
+  public async localLogin(@Body() dto: RequestUserLoginDto) {
+    return await this.userService.localLogin(dto)
   }
 
   @Get('/kakao')
