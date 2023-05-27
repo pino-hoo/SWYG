@@ -1,10 +1,17 @@
+// ** Nest Imports
 import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common'
+
+// ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
+
+// ** Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import { UserBookService } from '../application/userBook.service'
+
+// ** Custom Module Imports
+import UserBookService from '../service/userBook.service'
 
 @Controller('userBook')
-export class UserBookController {
+export default class UserBookController {
   constructor(private readonly userBookService: UserBookService) {}
 
   @Post('/:id')

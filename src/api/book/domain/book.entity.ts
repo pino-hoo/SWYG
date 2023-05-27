@@ -3,7 +3,7 @@ import { BaseTimeEntity } from 'src/common/entity/BaseTime.Entity'
 import LikeBook from 'src/api/likeBook/domain/likeBook.entity'
 import Quiz from 'src/api/quiz/domain/quiz.entity'
 import Review from 'src/api/review/domain/review.entity'
-import { UserBook } from 'src/api/userBook/domain/userBook.entity'
+import UserBook from 'src/api/userBook/domain/userBook.entity'
 
 // ** Typeorm Imports
 import {

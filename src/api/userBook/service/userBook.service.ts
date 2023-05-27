@@ -1,12 +1,17 @@
+// ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+
+// ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
-import BookService from 'src/api/book/service/book.service'
 import Book from 'src/api/book/domain/book.entity'
-import { UserBook } from '../domain/userBook.entity'
-import { UserBookRepository } from '../infrastructure/userBook.repository'
+import UserBook from '../domain/userBook.entity'
+
+// ** Custom Module Imports
+import BookService from 'src/api/book/service/book.service'
+import UserBookRepository from '../repository/userBook.repository'
 
 @Injectable()
-export class UserBookService {
+export default class UserBookService {
   constructor(
     private readonly userBookRepository: UserBookRepository,
     private readonly bookService: BookService,
