@@ -22,6 +22,6 @@ import Review from './domain/review.entity'
   ],
   controllers: [ReviewController],
   providers: [ReviewService],
-  exports: [ReviewService],
+  exports: [ReviewService, TypeOrmExModule, TypeOrmModule],
 })
 export default class ReviewModule {}

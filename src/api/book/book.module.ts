@@ -20,6 +20,6 @@ import Book from './domain/book.entity'
   ],
   providers: [BookService],
   controllers: [BookController],
-  exports: [BookService],
+  exports: [BookService, TypeOrmExModule, TypeOrmModule],
 })
 export default class BookModule {}

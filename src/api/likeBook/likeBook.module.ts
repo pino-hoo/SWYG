@@ -20,6 +20,7 @@ import TypeOrmExModule from 'src/common/repository/typeOrmEx.module'
     TypeOrmExModule.forCustomRepository([LikeBookRepository]),
     BookModule,
   ],
+  exports: [TypeOrmExModule, TypeOrmModule],
   providers: [LikeBookService],
   controllers: [LikeBookController],
 })

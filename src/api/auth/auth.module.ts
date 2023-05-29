@@ -62,6 +62,7 @@ import AuthService from './service/auth.service'
     }),
     MateModule,
   ],
+  exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [AuthController],
   providers: [
     UserService,

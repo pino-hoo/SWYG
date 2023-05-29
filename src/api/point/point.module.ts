@@ -20,6 +20,6 @@ import Point from './domain/point.entity'
   ],
   controllers: [PointController],
   providers: [PointService],
-  exports: [PointService],
+  exports: [PointService, TypeOrmExModule, TypeOrmModule],
 })
 export default class PointModule {}

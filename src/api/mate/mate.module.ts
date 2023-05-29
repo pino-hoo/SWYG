@@ -22,6 +22,6 @@ import Mate from './domain/mate.entity'
   ],
   providers: [MateService],
   controllers: [MateController],
-  exports: [MateService],
+  exports: [MateService, TypeOrmExModule, TypeOrmModule],
 })
 export default class MateModule {}

@@ -22,6 +22,7 @@ import Quiz from './domain/quiz.entity'
     AuthModule,
     BookModule,
   ],
+  exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [QuizController],
   providers: [QuizService],
 })

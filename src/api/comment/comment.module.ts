@@ -20,6 +20,7 @@ import Comment from './domain/comment.entity'
     TypeOrmExModule.forCustomRepository([CommentRepository]),
     ReviewModule,
   ],
+  exports: [TypeOrmExModule, TypeOrmModule],
   controllers: [CommentController],
   providers: [CommentService],
 })
