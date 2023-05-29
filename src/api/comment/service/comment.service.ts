@@ -1,14 +1,14 @@
 // ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 
-// ** Domain Imports
-import Review from 'src/api/review/domain/review.entity'
-import Comment from '../domain/comment.entity'
-import User from 'src/api/auth/domain/user.entity'
-
 // ** Custom Module Imports
 import ReviewService from 'src/api/review/service/review.service'
 import CommentRepository from '../repository/comment.repository'
+
+// ** Domain Imports
+import User from 'src/api/auth/domain/user.entity'
+import RequestCommentFindDto from '../dto/comment.find.dto'
+import { ApiResponse } from 'src/common/dto/api.response'
 
 @Injectable()
 export default class CommentService {
@@ -24,17 +24,24 @@ export default class CommentService {
    * @param {number}reviewIdx
    * @returns  {Comment}
    */
-  async saveComment(user: User, text: string, reviewIdx: number) {
+  public async saveComment(
+    user: User,
+    dto: RequestCommentFindDto,
+    reviewIdx: number,
+  ): Promise<ApiResponse<any>> {
     try {
-      const review: Review = await this.reviewService.findReviewWithUser(
-        reviewIdx,
-      )
-      const comment: Comment = this.commentRepository.create({
+      const review = await this.reviewService.findReviewWithUser(reviewIdx)
+      const comment = this.commentRepository.create({
         user,
-        text,
+        text: dto.text,
         review,
       })
-      return await this.commentRepository.save(comment)
+
+      return ApiResponse.of({
+        data: await this.commentRepository.save(comment),
+        message: 'Success Save Comment',
+        statusCode: 200,
+      })
     } catch (err) {
       console.log(err)
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)

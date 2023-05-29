@@ -12,31 +12,44 @@ import {
 // ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
 
-// ** Dto Imports
-import { ApiResponse } from 'src/common/dto/api.response'
+// ** Swagger Imports
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 
 // ** Custom Module Imports
 import CommentService from '../service/comment.service'
 
+// ** Dto Imports
+import { ApiResponse } from 'src/common/dto/api.response'
+import RequestCommentFindDto from '../dto/comment.find.dto'
+import RequestWithUserDto from 'src/common/dto/request.user.dto'
+
+ApiTags('Comment')
 @Controller('comment')
 export default class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: '댓글 저장' })
+  @ApiBody({ type: RequestCommentFindDto })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '댓글 저장 성공',
+    type: ApiResponse,
+  })
   @Post('/:id')
   @UseGuards(JwtGuard)
-  async saveComment(@Body() body, @Req() req, @Param('id') reviewIdx: string) {
-    const { user } = req
-    const { text } = body
-    const response = await this.commentService.saveComment(
-      user,
-      text,
-      Number(reviewIdx),
-    )
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Save Comment',
-      statusCode: 200,
-    })
+  public async saveComment(
+    @Body() dto: RequestCommentFindDto,
+    @Req() req: RequestWithUserDto,
+    @Param('id') reviewIdx: number,
+  ): Promise<ApiResponse<any>> {
+    return await this.commentService.saveComment(req.user, dto, reviewIdx)
   }
 
   @Get('/:id')
