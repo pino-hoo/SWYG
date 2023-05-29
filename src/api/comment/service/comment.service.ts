@@ -29,23 +29,18 @@ export default class CommentService {
     dto: RequestCommentFindDto,
     reviewIdx: number,
   ): Promise<ApiResponse<any>> {
-    try {
-      const review = await this.reviewService.findReviewWithUser(reviewIdx)
-      const comment = this.commentRepository.create({
-        user,
-        text: dto.text,
-        review,
-      })
+    const review = await this.reviewService.findReviewWithUser(reviewIdx)
+    const comment = this.commentRepository.create({
+      user,
+      text: dto.text,
+      review,
+    })
 
-      return ApiResponse.of({
-        data: await this.commentRepository.save(comment),
-        message: 'Success Save Comment',
-        statusCode: 200,
-      })
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
-    }
+    return ApiResponse.of({
+      data: await this.commentRepository.save(comment),
+      message: 'Success Save Comment',
+      statusCode: 200,
+    })
   }
 
   /**
@@ -53,13 +48,14 @@ export default class CommentService {
    * @param {number}reviewIdx
    * @returns {Comment[]}
    */
-  async getCommentList(reviewIdx: number): Promise<any> {
-    try {
-      // return await this.commentRepository.find({ where: { review: reviewIdx } })
-      return null
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
-    }
+  public async getCommentList(idx: number): Promise<ApiResponse<any>> {
+    const findComment = await this.commentRepository.find({
+      where: { review: { idx } },
+    })
+    return ApiResponse.of({
+      data: findComment,
+      statusCode: 200,
+      message: 'Success Find Comment',
+    })
   }
 }

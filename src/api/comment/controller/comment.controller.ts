@@ -52,13 +52,16 @@ export default class CommentController {
     return await this.commentService.saveComment(req.user, dto, reviewIdx)
   }
 
+  @ApiOperation({ summary: '댓글 조회' })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '댓글 조회 성공',
+    type: ApiResponse,
+  })
   @Get('/:id')
-  async getComment(@Param('id') reviewIdx: string) {
-    const response = await this.commentService.getCommentList(Number(reviewIdx))
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Find Comment',
-      statusCode: 200,
-    })
+  public async getComment(
+    @Param('id') reviewIdx: number,
+  ): Promise<ApiResponse<any>> {
+    return await this.commentService.getCommentList(reviewIdx)
   }
 }
