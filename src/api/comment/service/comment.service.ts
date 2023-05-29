@@ -9,6 +9,8 @@ import CommentRepository from '../repository/comment.repository'
 import User from 'src/api/auth/domain/user.entity'
 import RequestCommentFindDto from '../dto/comment.find.dto'
 import { ApiResponse } from 'src/common/dto/api.response'
+import { NotFoundException } from 'src/common/exception/customException'
+import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
 
 @Injectable()
 export default class CommentService {
@@ -30,6 +32,9 @@ export default class CommentService {
     reviewIdx: number,
   ): Promise<ApiResponse<any>> {
     const review = await this.reviewService.findReviewWithUser(reviewIdx)
+    if (!review) {
+      throw new NotFoundException(ExceptionMessage.NOT_FOUND_REVIEW)
+    }
     const comment = this.commentRepository.create({
       user,
       text: dto.text,
