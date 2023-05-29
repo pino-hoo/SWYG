@@ -1,12 +1,13 @@
 // ** Nest Imports
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 
-// ** Domain, Dto Imports
-import Book from '../domain/book.entity'
-import RequestBookSaveDto from '../dto/book.save.dto'
-
 // ** Custom Module Imports
 import BookRepository from '../repository/book.repository'
+
+// ** Domain, Dto Imports
+import Book from '../domain/book.entity'
+import { ApiResponse } from 'src/common/dto/api.response'
+import RequestBookSaveDto from '../dto/book.save.dto'
 
 @Injectable()
 export default class BookService {
@@ -17,23 +18,29 @@ export default class BookService {
    * @param {BookSaveDto} req
    * @returns {Book}
    */
-  async saveBook(req: RequestBookSaveDto) {
-    try {
-      const findBook: Book[] = await this.findBookList(req.isbn)
-      if (findBook.length > 0) return findBook[0]
-      const book = this.bookRepository.create({
-        title: req.title,
-        contents: req.contents,
-        publisher: req.publisher,
-        authors: req.authors,
-        thumbnail: req.thumbnail,
-        isbn: req.isbn,
+  async saveBook(dto: RequestBookSaveDto): Promise<ApiResponse<any>> {
+    const findBook: Book[] = await this.findBookList(dto.isbn)
+    if (findBook.length > 0) {
+      return ApiResponse.of({
+        data: findBook[0],
+        message: 'Success Save Book',
+        statusCode: 200,
       })
-      return await this.bookRepository.save(book)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
     }
+    const book = this.bookRepository.create({
+      title: dto.title,
+      contents: dto.contents,
+      publisher: dto.publisher,
+      authors: dto.authors,
+      thumbnail: dto.thumbnail,
+      isbn: dto.isbn,
+    })
+
+    return ApiResponse.of({
+      data: await this.bookRepository.save(book),
+      message: 'Success Save Book',
+      statusCode: 200,
+    })
   }
 
   /**
