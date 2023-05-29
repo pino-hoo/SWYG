@@ -102,7 +102,7 @@ export default class UserService {
   }
 
   /** Kakao Login(Passport) */
-  async kakaoLogin(req: KakaoDto): Promise<User> {
+  public async kakaoLogin(req: KakaoDto): Promise<User> {
     try {
       const findUser = await this.userRepository.findOne({
         where: { providerIdx: req.kakaoId },
@@ -116,7 +116,7 @@ export default class UserService {
   }
 
   /** Kakao Save -> Kakao Login에서 호출 */
-  async kakaoSave(req: KakaoDto): Promise<User> {
+  public async kakaoSave(req: KakaoDto): Promise<User> {
     try {
       const user = this.userRepository.create({
         email: req.email,
@@ -134,7 +134,7 @@ export default class UserService {
   }
 
   /** Naver Login(Passport) */
-  async naverLogin(req: NaverDto): Promise<User> {
+  public async naverLogin(req: NaverDto): Promise<User> {
     try {
       const findUser = await this.getUserbyProviderIdx(req.naverId)
       if (findUser) return findUser
@@ -146,7 +146,7 @@ export default class UserService {
   }
 
   /** Naver Save(Passport) */
-  async naverSave(req: NaverDto): Promise<User> {
+  public async naverSave(req: NaverDto): Promise<User> {
     try {
       const user = this.userRepository.create({
         email: req.email,
@@ -165,26 +165,26 @@ export default class UserService {
   }
 
   /** Jwt를 이용하여 Token 발급 */
-  async gwtJwtWithIdx(idx: number) {
+  public async gwtJwtWithIdx(idx: number) {
     return this.jwtService.sign({ idx })
   }
 
   /** providerIdx를 이용한 User 조회 */
-  async getUserbyProviderIdx(providerIdx: string) {
+  public async getUserbyProviderIdx(providerIdx: string) {
     return await this.userRepository.findOne({ where: { providerIdx } })
   }
 
   /** idx를 이용한 User 조회 */
-  async getUserByIdx(idx: number) {
+  public async getUserByIdx(idx: number) {
     return await this.userRepository.findOne({ where: { idx } })
   }
 
-  async getHashAndSalt(password: string, salt: number): Promise<string> {
+  public async getHashAndSalt(password: string, salt: number): Promise<string> {
     return await bcrypt.hash(password, salt)
   }
 
   /** Bcrypt를 이용한 Hash 풀가 */
-  async compareBcrypt(password: string, hash: string) {
+  public async compareBcrypt(password: string, hash: string) {
     const result = await bcrypt.compare(password, hash)
     console.log(result)
     if (!result)
@@ -192,7 +192,7 @@ export default class UserService {
   }
 
   /** Local Login Send Mail Code */
-  async sendMail(dto: RequestMainDto): Promise<ApiResponse<any>> {
+  public async sendMail(dto: RequestMainDto): Promise<ApiResponse<any>> {
     const number = await this.getRandomNumber()
 
     await this.mailerService.sendMail({
@@ -209,13 +209,13 @@ export default class UserService {
     })
   }
 
-  async getRandomNumber() {
+  public async getRandomNumber() {
     let number = Math.floor(Math.random() * 1000000) + 100000
     if (number > 1000000) number -= 100000
     return number
   }
 
-  async updateImg(user: User, image: string) {
+  public async updateImg(user: User, image: string) {
     const updateUser = await this.userRepository.update(user.idx, {
       imgPath: image,
     })

@@ -88,7 +88,7 @@ export default class AuthController {
   @Get('/kakao/callback')
   @HttpCode(200)
   @UseGuards(KakaoGuard)
-  async kakaoCallBack(@Req() req, @Res() res: Response) {
+  public async kakaoCallBack(@Req() req, @Res() res: Response) {
     const user = await this.userService.kakaoLogin(req.user)
     const token = await this.userService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
@@ -102,14 +102,14 @@ export default class AuthController {
   @Get('/naver')
   @HttpCode(200)
   @UseGuards(NaverGuard)
-  async naverLogin() {
+  public async naverLogin() {
     return HttpStatus.OK
   }
 
   @Get('/naver/callback')
   @HttpCode(200)
   @UseGuards(NaverGuard)
-  async naverCallBack(@Req() req, @Res() res: Response) {
+  public async naverCallBack(@Req() req, @Res() res: Response) {
     const user = await this.userService.naverLogin(req.user)
     const token = await this.userService.gwtJwtWithIdx(user.idx)
     const mate = await this.mateService.findMateById(user)
@@ -128,7 +128,9 @@ export default class AuthController {
     type: ApiResponse,
   })
   @Post('/mail')
-  async sendMail(@Body() dto: RequestMainDto): Promise<ApiResponse<any>> {
+  public async sendMail(
+    @Body() dto: RequestMainDto,
+  ): Promise<ApiResponse<any>> {
     return await this.userService.sendMail(dto)
   }
 
@@ -142,7 +144,9 @@ export default class AuthController {
   })
   @Get('/')
   @UseGuards(JwtGuard)
-  async getUserInfo(@Req() req: RequestWithUserDto): Promise<ApiResponse<any>> {
+  public async getUserInfo(
+    @Req() req: RequestWithUserDto,
+  ): Promise<ApiResponse<any>> {
     return ApiResponse.of({
       data: req.user,
       message: 'success Find User Info',
@@ -160,7 +164,10 @@ export default class AuthController {
   @Patch('/')
   @UseGuards(JwtGuard)
   @UseInterceptors(FilesInterceptor('files', null, multerDiskOptions))
-  async updateImage(@Req() req: RequestWithUserDto, @UploadedFiles() files) {
+  public async updateImage(
+    @Req() req: RequestWithUserDto,
+    @UploadedFiles() files,
+  ) {
     const { path } = files[0]
     return await this.userService.updateImg(req.user, path)
   }
