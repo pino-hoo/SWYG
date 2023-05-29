@@ -29,22 +29,23 @@ export default class BookController {
     type: ApiResponse,
   })
   @Post()
-  async saveBook(@Body() dto: RequestBookSaveDto) {
+  public async saveBook(@Body() dto: RequestBookSaveDto) {
     return await this.bookService.saveBook(dto)
   }
 
+  @ApiOperation({ summary: '책 조회' })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '책 조회 성공',
+    type: ApiResponse,
+  })
   @Get('/:id')
-  async findBook(@Param('id') idx: string) {
-    const response = await this.bookService.findBookByIdxWithReview(Number(idx))
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Find Book',
-      statusCode: 200,
-    })
+  public async findBook(@Param('id') id: number) {
+    return await this.bookService.findBookByIdxWithReview(id)
   }
 
   @Get('/count/:id')
-  async findBookListCount(@Param('id') idx: string) {
+  public async findBookListCount(@Param('id') idx: string) {
     const response = await this.bookService.findBookListCount(Number(idx))
     return ApiResponse.of({
       data: response,
@@ -54,7 +55,7 @@ export default class BookController {
   }
 
   @Get('/book/:isbn')
-  async findBookByIsbn(@Param('isbn') isbn: string) {
+  public async findBookByIsbn(@Param('isbn') isbn: string) {
     console.log(isbn)
     const response = await this.bookService.findBookByIsbn(isbn)
     return ApiResponse.of({

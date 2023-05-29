@@ -8,6 +8,7 @@ import BookRepository from '../repository/book.repository'
 import Book from '../domain/book.entity'
 import { ApiResponse } from 'src/common/dto/api.response'
 import RequestBookSaveDto from '../dto/book.save.dto'
+import { NotFoundException } from 'src/common/exception/customException'
 
 @Injectable()
 export default class BookService {
@@ -18,7 +19,7 @@ export default class BookService {
    * @param {BookSaveDto} req
    * @returns {Book}
    */
-  async saveBook(dto: RequestBookSaveDto): Promise<ApiResponse<any>> {
+  public async saveBook(dto: RequestBookSaveDto): Promise<ApiResponse<any>> {
     const findBook: Book[] = await this.findBookList(dto.isbn)
     if (findBook.length > 0) {
       return ApiResponse.of({
@@ -48,7 +49,7 @@ export default class BookService {
    * @param {string} isbn
    * @returns {Book[]}
    */
-  async findBookList(isbn: string) {
+  public async findBookList(isbn: string) {
     try {
       return await this.bookRepository.find({ where: { isbn } })
     } catch (err) {
@@ -62,16 +63,19 @@ export default class BookService {
    * @param {number}bookIdx
    * @returns {Book}
    */
-  async findBookByIdxWithReview(bookIdx: number) {
-    try {
-      return await this.bookRepository.findOne({
-        where: { idx: bookIdx },
-        relations: ['review'],
-      })
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
+  public async findBookByIdxWithReview(idx: number) {
+    const findBook = await this.bookRepository.findOne({
+      where: { idx },
+      relations: ['review'],
+    })
+    if (!findBook) {
+      throw new NotFoundException('Not Found Book')
     }
+    return ApiResponse.of({
+      data: findBook,
+      message: 'Success Find Book',
+      statusCode: 200,
+    })
   }
 
   /**
