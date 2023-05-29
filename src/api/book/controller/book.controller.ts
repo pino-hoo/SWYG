@@ -29,7 +29,9 @@ export default class BookController {
     type: ApiResponse,
   })
   @Post()
-  public async saveBook(@Body() dto: RequestBookSaveDto) {
+  public async saveBook(
+    @Body() dto: RequestBookSaveDto,
+  ): Promise<ApiResponse<any>> {
     return await this.bookService.saveBook(dto)
   }
 
@@ -40,18 +42,15 @@ export default class BookController {
     type: ApiResponse,
   })
   @Get('/:id')
-  public async findBook(@Param('id') id: number) {
+  public async findBook(@Param('id') id: number): Promise<ApiResponse<any>> {
     return await this.bookService.findBookByIdxWithReview(id)
   }
 
   @Get('/count/:id')
-  public async findBookListCount(@Param('id') idx: string) {
-    const response = await this.bookService.findBookListCount(Number(idx))
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Find BookList',
-      statusCode: 200,
-    })
+  public async findBookListCount(
+    @Param('id') idx: number,
+  ): Promise<ApiResponse<any>> {
+    return await this.bookService.findBookListCount(idx)
   }
 
   @Get('/book/:isbn')

@@ -9,6 +9,7 @@ import Book from '../domain/book.entity'
 import { ApiResponse } from 'src/common/dto/api.response'
 import RequestBookSaveDto from '../dto/book.save.dto'
 import { NotFoundException } from 'src/common/exception/customException'
+import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
 
 @Injectable()
 export default class BookService {
@@ -63,13 +64,13 @@ export default class BookService {
    * @param {number}bookIdx
    * @returns {Book}
    */
-  public async findBookByIdxWithReview(idx: number) {
+  public async findBookByIdxWithReview(idx: number): Promise<ApiResponse<any>> {
     const findBook = await this.bookRepository.findOne({
       where: { idx },
       relations: ['review'],
     })
     if (!findBook) {
-      throw new NotFoundException('Not Found Book')
+      throw new NotFoundException(ExceptionMessage.NOT_FOUND_BOOK)
     }
     return ApiResponse.of({
       data: findBook,
@@ -83,14 +84,15 @@ export default class BookService {
    * @param {number}count
    * @returns {Book[]}
    */
-  async findBookListCount(count: number) {
-    try {
-      const bookList: Book[] = await this.bookRepository.find()
-      return bookList.sort(() => Math.random() - 0.5).slice(0, count)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
-    }
+  async findBookListCount(count: number): Promise<ApiResponse<any>> {
+    const bookList: Book[] = await this.bookRepository.find()
+    const response = bookList.sort(() => Math.random() - 0.5).slice(0, count)
+
+    return ApiResponse.of({
+      data: response,
+      message: 'Success Find BookList',
+      statusCode: 200,
+    })
   }
 
   /**
@@ -112,12 +114,16 @@ export default class BookService {
    * @param {string} isbn
    * @returns {Book}
    */
-  async findBookByIsbn(isbn: string) {
-    try {
-      return await this.bookRepository.findOne({ where: { isbn } })
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
+  async findBookByIsbn(isbn: string): Promise<ApiResponse<any>> {
+    const findBook = await this.bookRepository.findOne({ where: { isbn } })
+    if (!findBook) {
+      throw new NotFoundException(ExceptionMessage.NOT_FOUND_BOOK)
     }
+
+    return ApiResponse.of({
+      data: findBook,
+      message: 'Success Find Book',
+      statusCode: 200,
+    })
   }
 }
