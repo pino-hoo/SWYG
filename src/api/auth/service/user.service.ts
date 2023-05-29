@@ -25,6 +25,7 @@ import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
 import { ApiResponse } from 'src/common/dto/api.response'
 import AuthService from './auth.service'
 import RequestUserLoginDto from '../dto/user.login.dto'
+import RequestMainDto from '../dto/mail.dto'
 
 @Injectable()
 export default class UserService {
@@ -191,20 +192,21 @@ export default class UserService {
   }
 
   /** Local Login Send Mail Code */
-  async sendMail(email: string) {
-    try {
-      const number: number = await this.getRandomNumber()
-      console.log(email, male.MALE_ID)
-      await this.mailerService.sendMail({
-        to: email,
-        from: male.MALE_ID,
-        subject: '이메일 인증 요청 메일입니다.',
-        html: '6자리 인증 코드 : ' + `<b> ${number}</b>`,
-      })
-      return number
-    } catch (err) {
-      console.log(err)
-    }
+  async sendMail(dto: RequestMainDto): Promise<ApiResponse<any>> {
+    const number = await this.getRandomNumber()
+
+    await this.mailerService.sendMail({
+      to: dto.email,
+      from: male.MALE_ID,
+      subject: '이메일 인증 요청 메일입니다.',
+      html: '6자리 인증 코드 : ' + `<b> ${number}</b>`,
+    })
+
+    return ApiResponse.of({
+      data: number,
+      message: 'Success Send Mail',
+      statusCode: 200,
+    })
   }
 
   async getRandomNumber() {

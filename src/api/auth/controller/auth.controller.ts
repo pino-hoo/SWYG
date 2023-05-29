@@ -20,7 +20,7 @@ import { Response } from 'express'
 
 // ** Domain, Dto Imports
 import { ApiResponse } from 'src/common/dto/api.response'
-import MailDto from '../dto/mail.dto'
+import RequestMainDto from '../dto/mail.dto'
 import RequestUserSaveDto from '../dto/user.save.dto'
 import RequestUserLoginDto from '../dto/user.login.dto'
 
@@ -118,14 +118,16 @@ export default class AuthController {
       : res.redirect(`${url}/auth/info?token=${token}`)
   }
 
+  @ApiOperation({ summary: '이메일 전송' })
+  @ApiBody({ type: RequestMainDto })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '이메일 전송 성공',
+    type: ApiResponse,
+  })
   @Post('/mail')
-  async sendMail(@Body() req: MailDto) {
-    const response = await this.userService.sendMail(req.email)
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Send Mail',
-      statusCode: 200,
-    })
+  async sendMail(@Body() dto: RequestMainDto): Promise<ApiResponse<any>> {
+    return await this.userService.sendMail(dto)
   }
 
   @Get('/')
