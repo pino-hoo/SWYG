@@ -150,16 +150,18 @@ export default class AuthController {
     })
   }
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: '유저 이미지 변경' })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '유저 이미지 변경 성공',
+    type: ApiResponse,
+  })
   @Patch('/')
   @UseGuards(JwtGuard)
   @UseInterceptors(FilesInterceptor('files', null, multerDiskOptions))
-  async updateImage(@Req() req, @UploadedFiles() files) {
+  async updateImage(@Req() req: RequestWithUserDto, @UploadedFiles() files) {
     const { path } = files[0]
-    const response = await this.userService.updateImg(req.user, path)
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Change Image File',
-      statusCode: 200,
-    })
+    return await this.userService.updateImg(req.user, path)
   }
 }

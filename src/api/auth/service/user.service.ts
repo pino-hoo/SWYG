@@ -216,15 +216,15 @@ export default class UserService {
   }
 
   async updateImg(user: User, image: string) {
-    try {
-      const updateUser = await this.userRepository.update(user.idx, {
-        imgPath: image,
-      })
-      return updateUser
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('ERROR', HttpStatus.BAD_REQUEST)
-    }
+    const updateUser = await this.userRepository.update(user.idx, {
+      imgPath: image,
+    })
+
+    return ApiResponse.of({
+      data: updateUser,
+      message: 'Success Change Image File',
+      statusCode: 200,
+    })
   }
 }
 // async saveForm(user: User, image: string, number: string) {
