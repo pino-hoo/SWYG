@@ -18,12 +18,6 @@ import { FilesInterceptor } from '@nestjs/platform-express'
 // ** Other Imports
 import { Response } from 'express'
 
-// ** Domain, Dto Imports
-import { ApiResponse } from 'src/common/dto/api.response'
-import RequestMainDto from '../dto/mail.dto'
-import RequestUserSaveDto from '../dto/user.save.dto'
-import RequestUserLoginDto from '../dto/user.login.dto'
-
 // ** Passport Imports
 import JwtGuard from '../passport/auth.jwt.guard'
 import KakaoGuard from '../passport/auth.kakao.guard'
@@ -36,11 +30,19 @@ import UserService from 'src/api/auth/service/user.service'
 
 // ** Swagger Imports
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger'
+
+// ** Domain, Dto Imports
+import { ApiResponse } from 'src/common/dto/api.response'
+import RequestMainDto from '../dto/mail.dto'
+import RequestUserSaveDto from '../dto/user.save.dto'
+import RequestUserLoginDto from '../dto/user.login.dto'
+import RequestWithUserDto from 'src/common/dto/request.user.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -130,12 +132,19 @@ export default class AuthController {
     return await this.userService.sendMail(dto)
   }
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: '유저 정보 조회' })
+  @ApiBody({ type: RequestMainDto })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '유저 정보 조회 성공',
+    type: ApiResponse,
+  })
   @Get('/')
   @UseGuards(JwtGuard)
-  async getUserInfo(@Req() req) {
-    const { user: response } = req
+  async getUserInfo(@Req() req: RequestWithUserDto): Promise<ApiResponse<any>> {
     return ApiResponse.of({
-      data: response,
+      data: req.user,
       message: 'success Find User Info',
       statusCode: 200,
     })
