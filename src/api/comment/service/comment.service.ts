@@ -1,9 +1,9 @@
 // ** Nest Imports
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 
 // ** Custom Module Imports
-import ReviewService from 'src/api/review/service/review.service'
 import CommentRepository from '../repository/comment.repository'
+import ReviewRepository from 'src/api/review/repository/review.repository'
 
 // ** Domain Imports
 import User from 'src/api/auth/domain/user.entity'
@@ -16,7 +16,7 @@ import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
 export default class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository,
-    private readonly reviewService: ReviewService,
+    private readonly reviewRepository: ReviewRepository,
   ) {}
 
   /**
@@ -29,16 +29,19 @@ export default class CommentService {
   public async saveComment(
     user: User,
     dto: RequestCommentFindDto,
-    reviewIdx: number,
+    idx: number,
   ): Promise<ApiResponse<any>> {
-    const review = await this.reviewService.findReviewWithUser(reviewIdx)
-    if (!review) {
+    const findReview = await this.reviewRepository.findOne({
+      where: { idx },
+      relations: ['user'],
+    })
+    if (!findReview) {
       throw new NotFoundException(ExceptionMessage.NOT_FOUND_REVIEW)
     }
     const comment = this.commentRepository.create({
       user,
       text: dto.text,
-      review,
+      review: findReview,
     })
 
     return ApiResponse.of({
