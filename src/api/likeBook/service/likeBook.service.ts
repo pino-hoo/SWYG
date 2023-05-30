@@ -25,16 +25,17 @@ export default class LikeBookService {
    * @param {User} user
    * @returns {LikeBook[]}
    */
-  async getLikeBookListWithBookAndUser(user: User) {
-    try {
-      return await this.likeBookRepository.find({
-        // where: { user },
+  public async getLikeBookListWithBookAndUser(
+    user: User,
+  ): Promise<ApiResponse<any>> {
+    return ApiResponse.of({
+      data: await this.likeBookRepository.find({
+        where: { user: { idx: user.idx } },
         relations: ['book', 'user'],
-      })
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
-    }
+      }),
+      message: 'Success Find LikeBookList',
+      statusCode: 200,
+    })
   }
 
   /**
