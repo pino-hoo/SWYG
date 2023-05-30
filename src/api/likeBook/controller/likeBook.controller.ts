@@ -49,18 +49,20 @@ export default class LikeBookController {
     return await this.likeBookService.saveLikeBook(user, id)
   }
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: '좋아요 취소' })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '좋아요 취소 성공',
+    type: ApiResponse,
+  })
   @Delete('/:id')
   @UseGuards(JwtGuard)
-  async deleteLikeBook(@Param('id') id: string, @Req() req) {
-    const response = await this.likeBookService.deleteLikeBook(
-      req.user,
-      Number(id),
-    )
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Delete LikeBook',
-      statusCode: 200,
-    })
+  async deleteLikeBook(
+    @Param('id') id: number,
+    @Req() { user }: RequestWithUserDto,
+  ): Promise<ApiResponse<any>> {
+    return await this.likeBookService.deleteLikeBook(user, id)
   }
 
   @Get('/')

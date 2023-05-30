@@ -69,21 +69,26 @@ export default class LikeBookService {
    * @param {number}bookIdx
    * @returns
    */
-  async deleteLikeBook(user: User, bookIdx: number) {
-    try {
-      const book: Book = await this.bookService.findBookByIdx(bookIdx)
-      const findLikeBook: boolean = await this.findLikeBook(user, book)
-      if (!findLikeBook)
-        return new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
-      const likeBook: LikeBook = await this.likeBookRepository.findOne({
-        // where: { user, book },
-      })
-      // return await this.likeBookRepository.delete(likeBook)
-      return null
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+  public async deleteLikeBook(
+    user: User,
+    bookIdx: number,
+  ): Promise<ApiResponse<any>> {
+    const book: Book = await this.bookService.findBookByIdx(bookIdx)
+    const findLikeBook: boolean = await this.findLikeBook(user, book)
+
+    if (!findLikeBook) {
+      throw new NotFoundException(ExceptionMessage.NOT_FOUND_LIKE_BOOK)
     }
+
+    const likeBook = await this.likeBookRepository.findOne({
+      where: { user: { idx: user.idx }, book: { idx: book.idx } },
+    })
+
+    return ApiResponse.of({
+      data: await this.likeBookRepository.delete(likeBook.idx),
+      message: 'Success Delete LikeBook',
+      statusCode: 200,
+    })
   }
 
   /**

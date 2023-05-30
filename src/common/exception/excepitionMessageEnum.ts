@@ -5,6 +5,7 @@ enum ExceptionMessage {
   NOT_FOUND_BOOK = '책을 찾을 수 없습니다.',
   NOT_FOUND_REVIEW = '리뷰를 찾을 수 없습니다.',
   EXIST_LIKE_BOOK = '이미 좋아요를 눌렀습니다.',
+  NOT_FOUND_LIKE_BOOK = '좋아요를 찾을 수 없습니다.',
 }
 
 export default ExceptionMessage
