@@ -12,28 +12,41 @@ import {
 // ** Passport Imports
 import JwtGuard from 'src/api/auth/passport/auth.jwt.guard'
 
-// ** Dto Imports
-import { ApiResponse } from 'src/common/dto/api.response'
+// ** Swagger Imports
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 
 // ** Custom Module Imports
 import LikeBookService from '../service/likeBook.service'
 
+// ** Dto Imports
+import { ApiResponse } from 'src/common/dto/api.response'
+import RequestWithUserDto from 'src/common/dto/request.user.dto'
+
+@ApiTags('Comment')
 @Controller('likeBook')
 export default class LikeBookController {
   constructor(private readonly likeBookService: LikeBookService) {}
 
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: '책 좋아요 생성' })
+  @ApiCreatedResponse({
+    status: 200,
+    description: '책 좋아요 생성 성공',
+    type: ApiResponse,
+  })
   @Post('/:id')
   @UseGuards(JwtGuard)
-  async saveLikeBook(@Req() req, @Param('id') id: string) {
-    const response = await this.likeBookService.saveLikeBook(
-      req.user,
-      Number(id),
-    )
-    return ApiResponse.of({
-      data: response,
-      message: 'Success Save LikeBook',
-      statusCode: 200,
-    })
+  public async saveLikeBook(
+    @Req() { user }: RequestWithUserDto,
+    @Param('id') id: number,
+  ): Promise<ApiResponse<any>> {
+    return await this.likeBookService.saveLikeBook(user, id)
   }
 
   @Delete('/:id')

@@ -9,6 +9,9 @@ import LikeBook from '../domain/likeBook.entity'
 // ** Custom Module Imports
 import BookService from 'src/api/book/service/book.service'
 import LikeBookRepository from '../repository/likeBook.repository'
+import { NotFoundException } from 'src/common/exception/customException'
+import ExceptionMessage from 'src/common/exception/excepitionMessageEnum'
+import { ApiResponse } from 'src/common/dto/api.response'
 
 @Injectable()
 export default class LikeBookService {
@@ -40,21 +43,24 @@ export default class LikeBookService {
    * @param {number}bookIdx
    * @returns {LikeBook}
    */
-  async saveLikeBook(user: User, bookIdx: number) {
-    try {
-      const book: Book = await this.bookService.findBookByIdx(bookIdx)
-      const findLikeBook: boolean = await this.findLikeBook(user, book)
-      if (findLikeBook)
-        return new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
-      const likeBook: LikeBook = this.likeBookRepository.create({
-        user,
-        book,
-      })
-      return await this.likeBookRepository.save(likeBook)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+  public async saveLikeBook(
+    user: User,
+    bookIdx: number,
+  ): Promise<ApiResponse<any>> {
+    const findBook = await this.bookService.findBookByIdx(bookIdx)
+    const findLikeBook: boolean = await this.findLikeBook(user, findBook)
+    if (findLikeBook) {
+      new NotFoundException(ExceptionMessage.EXIST_LIKE_BOOK)
     }
+    const likeBook: LikeBook = this.likeBookRepository.create({
+      user,
+      book: findBook,
+    })
+    return ApiResponse.of({
+      data: await this.likeBookRepository.save(likeBook),
+      message: 'Success Save LikeBook',
+      statusCode: 200,
+    })
   }
 
   /**
