@@ -29,7 +29,7 @@ import { ApiResponse } from 'src/common/dto/api.response'
 import RequestCommentFindDto from '../dto/comment.find.dto'
 import RequestWithUserDto from 'src/common/dto/request.user.dto'
 
-ApiTags('Comment')
+@ApiTags('Comment')
 @Controller('comment')
 export default class CommentController {
   constructor(private readonly commentService: CommentService) {}
